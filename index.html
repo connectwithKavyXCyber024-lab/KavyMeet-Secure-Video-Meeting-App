@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KavyMeet – Secure Video Meeting App</title>
+  <meta name="description" content="KavyMeet is a secure video meeting app built by Kavy Soni with lobby, room generation, camera preview, screen share, and meeting controls." />
+  <meta name="author" content="Kavy Soni" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#home" aria-label="KavyMeet Home">
+        <span class="brand-icon">KM</span>
+        <span>
+          <strong>KavyMeet</strong>
+          <small>Original Project by Kavy Soni</small>
+        </span>
+      </a>
+      <nav>
+        <a href="#home">Home</a>
+        <a href="#lobby">Lobby</a>
+        <a href="https://github.com/connectwithKavyXCyber024-lab" target="_blank" rel="noreferrer">GitHub</a>
+        <a href="https://www.linkedin.com/in/kavy-soni-s2401/" target="_blank" rel="noreferrer">LinkedIn</a>
+      </nav>
+    </header>
+
+    <main id="app"></main>
+
+    <footer class="footer">
+      <strong>Built & Designed by Kavy Soni</strong>
+      <span>© <span id="year"></span> Kavy Soni. All Rights Reserved.</span>
+    </footer>
+  </div>
+
+  <template id="home-template">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">Realtime Video Meeting</p>
+        <span class="tag">Original Project by Kavy Soni</span>
+        <h1>Video Meet<br/>App</h1>
+        <p class="subtitle">Create a private room, preview your camera, copy invite links, and start a clean browser-based video meeting experience.</p>
+        <div class="hero-actions">
+          <button class="primary" data-action="open-lobby">Open Lobby</button>
+          <button class="secondary" data-action="generate-room">Generate Room</button>
+        </div>
+        <div class="stats">
+          <div><strong>1-click</strong><span>room generation</span></div>
+          <div><strong>Live</strong><span>camera preview</span></div>
+          <div><strong>100%</strong><span>branded by Kavy</span></div>
+        </div>
+      </div>
+      <div class="device-stage" aria-label="App preview illustration">
+        <div class="laptop">
+          <div class="screen pattern">
+            <span class="status-pill">Connected</span>
+            <h2>ROOM PAGE</h2>
+            <div class="screen-buttons"><span>Send Stream</span><span>Call</span></div>
+            <h3>MY STREAM</h3>
+            <div class="mini-video">👋</div>
+            <h3>REMOTE STREAM</h3>
+            <div class="mini-video">👍</div>
+            <strong class="watermark">KAVY SONI</strong>
+          </div>
+          <div class="base"></div>
+        </div>
+        <div class="phone">
+          <div class="phone-screen pattern">
+            <h3>LOBBY</h3>
+            <label>Email ID</label>
+            <span class="fake-input"></span>
+            <label>Room Number</label>
+            <span class="fake-input"></span>
+            <span class="join-chip">Join</span>
+            <b>by Kavy</b>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+
+  <template id="lobby-template">
+    <section class="page-card lobby-card">
+      <div class="section-head">
+        <p class="eyebrow">KavyMeet Lobby</p>
+        <h1>Join or Generate a Room</h1>
+        <p>Enter your details, preview your camera, then join your private meeting room.</p>
+      </div>
+      <div class="lobby-grid">
+        <form id="lobby-form" class="form-card">
+          <label>
+            Your Name
+            <input id="name-input" type="text" placeholder="Kavy Soni" autocomplete="name" required />
+          </label>
+          <label>
+            Email ID
+            <input id="email-input" type="email" placeholder="you@example.com" autocomplete="email" required />
+          </label>
+          <label>
+            Room Number
+            <div class="inline-field">
+              <input id="room-input" type="text" placeholder="kavymeet-1234" required />
+              <button type="button" class="small-btn" data-action="generate-room-inline">Generate</button>
+            </div>
+          </label>
+          <div class="form-actions">
+            <button type="submit" class="primary">Join Room</button>
+            <button type="button" class="secondary" data-action="copy-lobby-link">Copy Link</button>
+          </div>
+          <p class="hint">Tip: The room link can be shared with anyone. This stable portfolio version does not use Jitsi, so there is no moderator-login error.</p>
+        </form>
+        <div class="preview-card">
+          <div class="video-box" id="preview-box">
+            <video id="preview-video" autoplay muted playsinline></video>
+            <span id="preview-placeholder">Camera preview will appear here</span>
+          </div>
+          <div class="control-row">
+            <button class="icon-btn" data-action="start-camera">Start Camera</button>
+            <button class="icon-btn" data-action="stop-camera">Stop</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+
+  <template id="room-template">
+    <section class="room-page pattern">
+      <div class="room-header">
+        <div>
+          <p class="eyebrow">KavyMeet Room</p>
+          <h1 id="room-title">ROOM PAGE</h1>
+          <span id="room-id-badge" class="tag"></span>
+        </div>
+        <div class="room-actions">
+          <button class="secondary light" data-action="copy-room-link">Copy Invite</button>
+          <button class="danger" data-action="leave-room">Leave</button>
+        </div>
+      </div>
+
+      <div class="meeting-layout">
+        <div class="main-call-card">
+          <div class="video-box large">
+            <video id="room-video" autoplay muted playsinline></video>
+            <span id="room-placeholder">Start camera to send your stream</span>
+            <strong class="video-label">MY STREAM</strong>
+          </div>
+          <div class="call-controls">
+            <button data-action="toggle-mic">🎙️ Mic</button>
+            <button data-action="toggle-camera">📷 Camera</button>
+            <button data-action="share-screen">🖥️ Share Screen</button>
+            <button data-action="copy-room-link">🔗 Invite</button>
+          </div>
+        </div>
+        <aside class="side-panel">
+          <div class="participant-card">
+            <h2>REMOTE STREAM</h2>
+            <div class="remote-placeholder">Waiting for participant...</div>
+            <p>Share the copied invite link with another person to join the same room.</p>
+          </div>
+          <div class="chat-card">
+            <h2>Room Chat</h2>
+            <div id="chat-list" class="chat-list"></div>
+            <form id="chat-form" class="chat-form">
+              <input id="chat-input" type="text" placeholder="Type message..." />
+              <button type="submit">Send</button>
+            </form>
+          </div>
+        </aside>
+      </div>
+      <p class="built-note">Built by <strong>Kavy Soni</strong> • GitHub: connectwithKavyXCyber024-lab</p>
+    </section>
+  </template>
+
+  <div id="toast" role="status"></div>
+  <script src="script.js"></script>
+</body>
+</html>
